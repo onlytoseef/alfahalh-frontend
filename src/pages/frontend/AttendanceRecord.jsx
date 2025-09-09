@@ -17,7 +17,7 @@ const AttendanceRecord = () => {
       setLoading(true);
       try {
         const studentResponse = await axios.get(
-          `http://192.168.10.2:5000/api/student/${studentId}`
+          `https://backend-alfalah.vercel.app/api/student/${studentId}`
         );
         setStudentInfo(studentResponse.data);
 
@@ -27,7 +27,7 @@ const AttendanceRecord = () => {
         const currentMonthEnd = moment().endOf("month").format("YYYY-MM-DD");
 
         const attendanceResponse = await axios.get(
-          `http://192.168.10.2:5000/api/attendance/student/${studentId}?startDate=${currentMonthStart}&endDate=${currentMonthEnd}`
+          `https://backend-alfalah.vercel.app/api/attendance/student/${studentId}?startDate=${currentMonthStart}&endDate=${currentMonthEnd}`
         );
 
         const allDates = [];

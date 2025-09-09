@@ -8,7 +8,7 @@ import {
   addStudent,
 } from "../../store/slices/studentSlice";
 import { fetchClasses } from "../../store/slices/classSlice";
-import { FaTrash, FaEdit, FaPlus, FaFilter, FaDownload } from "react-icons/fa";
+import { FaTrash, FaEdit, FaPlus, FaDownload } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 
 const SkeletonCard = () => (
@@ -25,7 +25,6 @@ const SkeletonTable = () => (
           <th className="px-6 py-3 text-left text-sm font-semibold">
             Roll Number
           </th>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Photo</th>
           <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
           <th className="px-6 py-3 text-left text-sm font-semibold">
             Guardian
@@ -48,9 +47,6 @@ const SkeletonTable = () => (
           >
             <td className="px-6 py-4">
               <div className="h-6 bg-gray-200 rounded animate-pulse w-16"></div>
-            </td>
-            <td className="px-6 py-4">
-              <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
             </td>
             <td className="px-6 py-4">
               <div className="h-6 bg-gray-200 rounded animate-pulse w-32"></div>
@@ -105,7 +101,6 @@ const Students = () => {
     gender: "",
     guardianPhone: "",
     address: "",
-    photo: null,
   });
 
   useEffect(() => {
@@ -139,27 +134,29 @@ const Students = () => {
       gender: student.gender,
       guardianPhone: student.guardianPhone,
       address: student.address,
-      photo: null,
     });
     setIsEditModalOpen(true);
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("guardianName", formData.guardianName);
-    data.append("classId", formData.classId);
-    data.append("gender", formData.gender);
-    data.append("guardianPhone", formData.guardianPhone);
-    data.append("address", formData.address);
-    if (formData.photo) {
-      data.append("photo", formData.photo);
-    }
+    
+    // Create JSON data instead of FormData
+    const studentData = {
+      name: formData.name,
+      guardianName: formData.guardianName,
+      classId: formData.classId,
+      gender: formData.gender,
+      guardianPhone: formData.guardianPhone,
+      address: formData.address,
+    };
 
     try {
       await dispatch(
-        updateStudent({ id: editingStudent.studentId, formData: data })
+        updateStudent({ 
+          id: editingStudent.studentId, 
+          studentData: JSON.stringify(studentData) 
+        })
       ).unwrap();
       setIsEditModalOpen(false);
       toast.success("Student updated successfully!");
@@ -170,19 +167,19 @@ const Students = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("guardianName", formData.guardianName);
-    data.append("classId", formData.classId);
-    data.append("gender", formData.gender);
-    data.append("guardianPhone", formData.guardianPhone);
-    data.append("address", formData.address);
-    if (formData.photo) {
-      data.append("photo", formData.photo);
-    }
+    
+    // Create JSON data instead of FormData
+    const studentData = {
+      name: formData.name,
+      guardianName: formData.guardianName,
+      classId: formData.classId,
+      gender: formData.gender,
+      guardianPhone: formData.guardianPhone,
+      address: formData.address,
+    };
 
     try {
-      await dispatch(addStudent(data)).unwrap();
+      await dispatch(addStudent(JSON.stringify(studentData))).unwrap();
       setIsAddModalOpen(false);
       setFormData({
         name: "",
@@ -191,7 +188,6 @@ const Students = () => {
         gender: "",
         guardianPhone: "",
         address: "",
-        photo: null,
       });
       toast.success("Student added successfully!");
     } catch (error) {
@@ -214,10 +210,6 @@ const Students = () => {
 
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
   };
 
   return (
@@ -280,9 +272,6 @@ const Students = () => {
                       Roll Number
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Photo
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
                       Name
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
@@ -321,17 +310,6 @@ const Students = () => {
                           {student.rollNumber}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        <img
-                          src={
-                            student.photo
-                              ? `http://localhost:5000${student.photo}`
-                              : "https://via.placeholder.com/50"
-                          }
-                          alt="Student"
-                          className="w-10 h-10 rounded-full"
-                        />
-                      </td>
                       <td className="px-6 py-4 text-sm text-gray-700 font-semibold">
                         {student.name}
                       </td>
@@ -369,14 +347,14 @@ const Students = () => {
                           <img
                             src={
                               student.qrCode
-                                ? `http://localhost:5000${student.qrCode}`
+                                ? `https://backend-alfalah.vercel.app${student.qrCode}`
                                 : "https://via.placeholder.com/50"
                             }
                             alt="QR Code"
                             className="w-10 h-10"
                           />
                           <a
-                            href={`http://localhost:5000${student.qrCode}`}
+                            href={`https://backend-alfalah.vercel.app${student.qrCode}`}
                             download={`${student.qrCode.split("/").pop()}`}
                             className="text-blue-500 hover:text-blue-700 mt-2"
                           >
@@ -523,15 +501,6 @@ const Students = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Photo</label>
-                <input
-                  type="file"
-                  name="photo"
-                  onChange={handleFileChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
               <div className="flex justify-end gap-3">
                 <button
                   type="button"
@@ -663,15 +632,6 @@ const Students = () => {
                     setFormData({ ...formData, address: e.target.value })
                   }
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Photo</label>
-                <input
-                  type="file"
-                  name="photo"
-                  onChange={handleFileChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

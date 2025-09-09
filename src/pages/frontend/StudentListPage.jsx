@@ -79,7 +79,7 @@ const StudentCard = React.memo(
               <div className="relative flex-shrink-0">
                 {student.photo ? (
                   <img
-                    src={`http://192.168.10.2:5000${student.photo}` ||`http://localhost:5000${student.photo}` }
+                    src={`https://backend-alfalah.vercel.app${student.photo}` }
                     alt={student.name}
                     className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 sm:border-4 border-white shadow-md"
                     loading="lazy"
@@ -219,7 +219,7 @@ const StudentListPage = () => {
     setIsGenerating(true);
     try {
       const response = await axios.post(
-        "http://192.168.10.2:5000/api/student-fee/generate-bulk-monthly" || "http://localhost:5000/api/student-fee/generate-bulk-monthly",
+  "https://backend-alfalah.vercel.app/api/student-fee/generate-bulk-monthly",
         { classId: selectedClass, month, year, amount }
       );
       message.success(`Generated ${response.data.count} vouchers successfully`);

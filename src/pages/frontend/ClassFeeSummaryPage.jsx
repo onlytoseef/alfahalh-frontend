@@ -138,7 +138,7 @@ const ClassFeeSummaryPage = () => {
   const confirmDeleteVoucher = async () => {
     try {
       await axios.delete(
-        `http://192.168.10.2:5000/api/student-fee/delete-voucher/${currentVoucher.studentId}/${currentVoucher.voucherNumber}` || `http://localhost:5000/api/student-fee/delete-voucher/${currentVoucher.studentId}/${currentVoucher.voucherNumber}`
+        `https://backend-alfalah.vercel.app/api/student-fee/delete-voucher/${currentVoucher.studentId}/${currentVoucher.voucherNumber}`
       );
       message.success("Voucher deleted successfully");
       fetchClassSummary();
@@ -157,13 +157,13 @@ const ClassFeeSummaryPage = () => {
       if (currentVoucher.feeType === "admission") {
         const values = await admissionForm.validateFields();
         await axios.put(
-          `http://192.168.10.2:5000/api/student-fee/edit-admission/${currentVoucher.studentId}/${currentVoucher.voucherNumber}` || `http://localhost:5000/api/student-fee/edit-admission/${currentVoucher.studentId}/${currentVoucher.voucherNumber}` ,
+          `https://backend-alfalah.vercel.app/api/student-fee/edit-admission/${currentVoucher.studentId}/${currentVoucher.voucherNumber}` ,
           { feeDetails: values }
         );
       } else {
         const values = await form.validateFields();
         await axios.put(
-          `http://192.168.10.2:5000/api/student-fee/edit-monthly/${currentVoucher.studentId}/${currentVoucher.voucherNumber}` || `http://localhost:5000/api/student-fee/edit-monthly/${currentVoucher.studentId}/${currentVoucher.voucherNumber}`,
+          `https://backend-alfalah.vercel.app/api/student-fee/edit-monthly/${currentVoucher.studentId}/${currentVoucher.voucherNumber}`,
           values
         );
       }
@@ -206,7 +206,7 @@ const ClassFeeSummaryPage = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get("http://192.168.10.2:5000/api/classes");
+  const response = await axios.get("https://backend-alfalah.vercel.app/api/classes");
       setClasses(response.data);
     } catch (error) {
       message.error("Failed to fetch classes");
@@ -217,7 +217,7 @@ const ClassFeeSummaryPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://192.168.10.2:5000/api/student-fee/class-summary",
+        "https://backend-alfalah.vercel.app/api/student-fee/class-summary",
         { params: { classId: selectedClass, month, year } }
       );
       setSummary(response.data);
@@ -238,7 +238,7 @@ const ClassFeeSummaryPage = () => {
       setGenerateModalVisible(false);
       setLoading(true);
       const response = await axios.post(
-        "http://192.168.10.2:5000/api/student-fee/generate-bulk-monthly",
+        "https://backend-alfalah.vercel.app/api/student-fee/generate-bulk-monthly",
         { classId: selectedClass, month, year, amount: values.amount }
       );
       message.success(`Generated ${response.data.count} vouchers successfully`);
@@ -275,7 +275,7 @@ const ClassFeeSummaryPage = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://192.168.10.2:5000/api/student-fee/generate-bulk-admission",
+        "https://backend-alfalah.vercel.app/api/student-fee/generate-bulk-admission",
         {
           classId: selectedClass,
           feeDetails: {
@@ -310,7 +310,7 @@ const ClassFeeSummaryPage = () => {
     try {
       setLoading(true);
       await axios.put(
-        `http://192.168.10.2:5000/api/student-fee/update-status/${studentId}/${voucherNumber}`,
+        `https://backend-alfalah.vercel.app/api/student-fee/update-status/${studentId}/${voucherNumber}`,
         { isPaid: true }
       );
       message.success("Fee marked as fully paid successfully");

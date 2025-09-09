@@ -89,7 +89,7 @@ const Home = () => {
       setLoading(true);
       const response = await axios.get(
       
-        "http://192.168.10.2:5000/api/dashboard-summary"||"http://localhost:5000/api/dashboard-summary",
+  "https://backend-alfalah.vercel.app/api/dashboard-summary",
         {
           params: {
             startDate,

@@ -19,12 +19,12 @@ const AttendancePage = () => {
       setScannedData(data);
       try {
         const markAttendanceResponse = await axios.post(
-          "http://192.168.10.2:5000/api/mark" || "http://localhost:5000/api/mark",
+          "https://backend-alfalah.vercel.app/api/mark",
           { studentId: String(data) }
         );
 
         const studentResponse = await axios.get(
-          `http://192.168.10.2:5000/api/student/${data}` ||`http://localhost:5000/api/student/${date}` 
+          `https://backend-alfalah.vercel.app/api/student/${data}`
         );
         setStudentInfo(studentResponse.data);
 
@@ -70,7 +70,7 @@ const AttendancePage = () => {
       try {
         const today = moment().tz("Asia/Karachi").format("YYYY-MM-DD");
         const response = await axios.get(
-          `http://192.168.10.2:5000/api/attendance/scanned-students?date=${today}` || `http://localhost:5000/api/attendance/scanned-students?date=${today}`
+          `https://backend-alfalah.vercel.app/api/attendance/scanned-students?date=${today}`
         );
         const formattedStudents = response.data.map((student, index) => ({
           key: index + 1,

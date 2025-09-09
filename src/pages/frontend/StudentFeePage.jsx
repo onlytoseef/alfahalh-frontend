@@ -81,7 +81,7 @@ const StudentFeePage = () => {
   const [selectedVoucher, setSelectedVoucher] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const API_BASE_URL = "http://192.168.10.2:5000/api" || "http://localhost:5000/api" ;
+  const API_BASE_URL = "https://backend-alfalah.vercel.app/api" ;
   const months = moment.months();
   const currentYear = moment().year();
 
@@ -732,7 +732,7 @@ const StudentFeePage = () => {
             <div className="relative">
               {student.student.photo ? (
                 <motion.img
-                  src={`http://192.168.10.4:5000${student.student.photo}`}
+                  src={`https://backend-alfalah.vercel.app${student.student.photo}`}
                   alt={student.student.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
                   whileHover={{ scale: 1.05 }}

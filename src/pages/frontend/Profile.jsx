@@ -23,7 +23,7 @@ const Profile = () => {
 
       setLoading(true);
       const response = await axios.post(
-        "http://192.168.10.2:5000/api/auth/update-password" ||        "http://localhost:5000/api/auth/update-password" ,
+  "https://backend-alfalah.vercel.app/api/auth/update-password" ,
         {
           userId: user._id,
           currentPassword: values.currentPassword,

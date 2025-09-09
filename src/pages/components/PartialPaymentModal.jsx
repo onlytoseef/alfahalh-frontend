@@ -44,7 +44,7 @@ const PartialPaymentModal = ({
       };
 
       const response = await axios.post(
-        `http://192.168.10.2:5000/api/student-fee/partial-payment/${student.studentId}/${voucher.voucherNumber}`,
+        `https://backend-alfalah.vercel.app/api/student-fee/partial-payment/${student.studentId}/${voucher.voucherNumber}`,
         requestData
       );
 
