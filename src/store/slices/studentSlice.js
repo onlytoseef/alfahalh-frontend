@@ -19,13 +19,13 @@ export const fetchTotalStudents = createAsyncThunk(
 
 export const addStudent = createAsyncThunk(
   "students/add",
-  async (formData, { rejectWithValue }) => {
+  async (studentData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_URL}/add-student`, // Correct endpoint
-        formData,
+        `${API_URL}/add-student`,
+        studentData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "application/json" },
         }
       );
       return response.data.student;
